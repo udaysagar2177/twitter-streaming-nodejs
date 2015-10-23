@@ -15,15 +15,12 @@ function initialize() {
   };
   var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
   
-  //Setup heat map and link to Twitter array we will append data to
-  var heatmap;
-  var liveTweets = new google.maps.MVCArray();
-  heatmap = new google.maps.visualization.HeatmapLayer({
-    data: liveTweets,
-    radius: 25
-  });
-  heatmap.setMap(map);
-
+  //Setup markerCluster
+  var markerClusterOptions = {
+    minimumClusterSize: 5
+  }
+  var markerCluster = new MarkerClusterer(map, [], markerClusterOptions);
+  
   if(io !== undefined) {
     // Storage for WebSocket connections
     var socket = io.connect('/');
@@ -32,20 +29,17 @@ function initialize() {
     // received everytime a new tweet is receieved.
     socket.on('twitter-stream', function (data) {
 
-      //Add tweet to the heat map array.
+      //Create the location of the tweet
       var tweetLocation = new google.maps.LatLng(data.lng,data.lat);
-      liveTweets.push(tweetLocation);
 
       //Flash a dot onto the map quickly
       var image = "css/small-dot-icon.png";
       var marker = new google.maps.Marker({
         position: tweetLocation,
-        map: map,
-        icon: image
+        map: map
       });
-      setTimeout(function(){
-        marker.setMap(null);
-      },600);
+      
+      markerCluster.addMarker(marker);
 
     });
 

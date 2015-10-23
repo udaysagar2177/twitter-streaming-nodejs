@@ -15,8 +15,8 @@ var twit = new twitter({
 }),
 stream = null;
 
-//Use the default port (for beanstalk) or default to 8081 locally
-server.listen(process.env.PORT || 8081);
+//Use the default PORT and IP
+server.listen(process.env.PORT, process.env.IP);
 
 //Setup rotuing for app
 app.use(express.static(__dirname + '/public'));
