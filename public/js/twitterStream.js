@@ -17,13 +17,13 @@ function initialize() {
   
   //Setup markerCluster
   var markerClusterOptions = {
-    minimumClusterSize: 5
+    minimumClusterSize: process.env.minimumClusterSize || 2
   }
   var markerCluster = new MarkerClusterer(map, [], markerClusterOptions);
   
   if(io !== undefined) {
     // Storage for WebSocket connections
-    var socket = io.connect('/');
+    var socket = io.connect(process.env.socketConnectionURL || '/');
 
     // This listens on the "twitter-steam" channel and data is 
     // received everytime a new tweet is receieved.
