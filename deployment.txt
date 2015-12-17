@@ -1,0 +1,10 @@
+*** IMPORTANT ***
+This file contains details on how to deploy this application on my personal machine on AWS
+
+Changes to be made:
+1. Change the socket connection url to ':21771/'
+var socket = io.connect(':21771/');
+2. Change the minimumClusterSize to 2 [optional]
+
+Run the private gist from github.com
+curl < URL to Deploy_Twiiter_HeatMap_Web_Application.sh > | bash
